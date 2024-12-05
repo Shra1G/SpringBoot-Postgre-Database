@@ -13,19 +13,24 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "students")
-
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long roll;
 
-    @Column(name = "fist_name")
-    private String firstName;
+    @Column(name = "Name")
+    private String name;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "Age")
+    private Long age;
 
-    @Column(name = "email_id", nullable = false, unique = true)
+    @Column(name = "Department")
+    private String dept;
+
+    @Column(name = "CGPA", nullable = false)
+    private double cgpa;
+
+    @Column(name = "email_id", nullable = true, unique = true)
     private String email;
 }

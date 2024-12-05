@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class StudentDto {
-    private Long id;
-    private String firstName;
-    private String lastName;
+    private Long roll;
+    private String name;
+    private Long age;
+    private String dept;
+    private double cgpa;
     private String email;
 }

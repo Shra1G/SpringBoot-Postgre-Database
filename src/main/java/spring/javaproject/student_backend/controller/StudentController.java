@@ -1,13 +1,13 @@
 package spring.javaproject.student_backend.controller;
 
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.javaproject.student_backend.dto.StudentDto;
-import spring.javaproject.student_backend.entity.Student;
 import spring.javaproject.student_backend.service.StudentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -25,8 +25,8 @@ public class StudentController {
     }
 
     //Build GET Student REST API
-    @GetMapping("{id}")
-    public ResponseEntity<StudentDto> getStudentById(@PathVariable("id") Long studentId){
+    @GetMapping("{roll}")
+    public ResponseEntity<StudentDto> getStudentById(@PathVariable("roll") Long studentId){
         StudentDto studentDto = studentService.getStudentById(studentId);
         return ResponseEntity.ok(studentDto);
     }
@@ -39,17 +39,28 @@ public class StudentController {
     }
 
     //Build Update Student REST API
-    @PutMapping("{id}")
-    public ResponseEntity<StudentDto> updateStudent(@PathVariable("id") Long studentId,
+    @PutMapping("{roll}")
+    public ResponseEntity<StudentDto> updateStudent(@PathVariable("roll") Long studentId,
                                                     @RequestBody StudentDto updatedStudent){
         StudentDto studentDto = studentService.updateStudent(studentId, updatedStudent);
         return ResponseEntity.ok(studentDto);
     }
 
     //Build Delete Student REST API
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable("id") Long studentId){
+    @DeleteMapping("{roll}")
+    public ResponseEntity<String> deleteStudent(@PathVariable("roll") Long studentId){
         studentService.deleteStudent(studentId);
         return ResponseEntity.ok("Student deleted successfully!");
+    }
+
+    //GET /api/students/filter?department=MEC&page=0&size=6
+    @GetMapping("/filter")
+    public ResponseEntity<Page<StudentDto>> getStudentsByDepartment(
+            @RequestParam String department,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<StudentDto> studentPage = studentService.getStudentsByDepartment(department, pageRequest);
+        return ResponseEntity.ok(studentPage);
     }
 }
